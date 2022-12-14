@@ -29,7 +29,7 @@ public class MyRealm extends AuthorizingRealm {
         user.setPassword(userpwd.toString());
         User login = userMapper.login(user);
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
-                login.getUsername(),login.getPassword(),""
+                login.getUsername(),login.getPassword(),this.getName()
         );
         return simpleAuthenticationInfo;
     }

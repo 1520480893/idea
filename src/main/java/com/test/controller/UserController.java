@@ -27,12 +27,15 @@ public class UserController {
         try {
             subject.login(usernamePasswordToken);
             session.setAttribute("username",user.getUsername());
+            return "main";
         } catch (IncorrectCredentialsException e) {
             System.out.println("密码不正确");
+            return  "login";
         }catch (UnknownAccountException e){
             System.out.println("用户名不存在");
+            return  "login";
         }
 
-        return "main";
+
     }
 }
