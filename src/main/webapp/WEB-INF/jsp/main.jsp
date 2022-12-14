@@ -9,7 +9,7 @@
 <ul>
     系统功能列表
     <li>
-        <a href="admin/addUser.jsp">用户新增</a>
+        <a href="/shiro01/admin/toAddUser">用户新增</a>
     </li>
     <li>
         <a href="admin/listUser.jsp">用户查询</a>
@@ -30,8 +30,8 @@
 <ul>
     shiro标签
     <li>
-        <r:hasPermission name="user:create">
-            <a href="admin/addUser.jsp">用户新增</a>
+        <r:hasPermission name="用户新增">
+            <a href="/shiro01/admin/toAddUser">用户新增</a>
         </r:hasPermission>
     </li>
     <li>
@@ -41,7 +41,7 @@
         <a href="admin/resetPwd.jsp">重置用户密码</a>
     </li>
     <li>
-        <r:hasPermission name="user:update">
+        <r:hasPermission name="用户修改">
             <a href="admin/updateUser.jsp">用户修改</a>
         </r:hasPermission>
     </li>
