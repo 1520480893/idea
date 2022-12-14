@@ -7,9 +7,13 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Set;
 
 public class MyRealm extends AuthorizingRealm {
     @Autowired
@@ -17,7 +21,13 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        Object username = principalCollection.getPrimaryPrincipal();
+        Set<String> roles = userMapper.findRoles(username.toString());
+        Set<String> permissions = userMapper.findPermissions(username.toString());
+        SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
+        info.setRoles(roles);
+        info.setStringPermissions(permissions);
+        return info;
     }
 
     @Override
@@ -29,7 +39,7 @@ public class MyRealm extends AuthorizingRealm {
         user.setPassword(userpwd.toString());
         User login = userMapper.login(user);
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
-                login.getUsername(),login.getPassword(),this.getName()
+                login.getUsername(),login.getPassword(), ByteSource.Util.bytes(login.getSalt()),this.getName()
         );
         return simpleAuthenticationInfo;
     }

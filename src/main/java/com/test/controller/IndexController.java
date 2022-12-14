@@ -6,8 +6,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/index")
 public class IndexController {
-    @RequestMapping("/toMain")
-    public String toMain(){
-        return "main";
-    }
+
 }

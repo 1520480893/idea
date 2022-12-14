@@ -24,6 +24,20 @@
     from t_sys_user
     where username = #{username}
   </select>
+  <select id="findRoles" resultType="java.lang.String" parameterType="java.lang.String">
+    SELECT rolename FROM t_sys_user u ,t_sys_user_role ur,t_sys_role r
+    WHERE u.userid=ur.userid
+      AND   ur.roleid = r.roleid
+      AND   u.username = #{username}
+  </select>
+  <select id="findPermissions" resultType="java.lang.String" parameterType="java.lang.String">
+    SELECT pername FROM t_sys_user u ,t_sys_user_role ur,t_sys_role r ,t_sys_role_permission rp,t_sys_permission p
+    WHERE u.userid=ur.userid
+      AND   ur.roleid = r.roleid
+      AND   r.roleid = rp.roleid
+      AND   rp.perid = p.perid
+      AND   u.username = #{username}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sys_user
     where userid = #{userid,jdbcType=INTEGER}

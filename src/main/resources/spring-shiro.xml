@@ -11,7 +11,19 @@
 
 <!--	注入UserService实现类，通过账号密码登录时实现基于Shiro身份认证识别-->
 
-	<bean id="shiroRealm" class="com.test.utils.MyRealm"></bean>
+	<bean id="shiroRealm" class="com.test.utils.MyRealm">
+		<!--以下三个配置告诉shiro将如何对用户传来的明文密码进行加密-->
+		<property name="credentialsMatcher">
+			<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+				<!--指定hash算法为MD5-->
+				<property name="hashAlgorithmName" value="md5"/>
+				<!--指定散列次数为1024次-->
+				<property name="hashIterations" value="1024"/>
+				<!--true指定Hash散列值使用Hex加密存. false表明hash散列值用用Base64-encoded存储-->
+				<property name="storedCredentialsHexEncoded" value="true"/>
+			</bean>
+		</property>
+	</bean>
 <!--	注册安全管理器-->
 <!--	将自定义的Realm设置到Shiro的SecurityManager中，在Shiro授权和认证时使用自定义的Realm数据源进行校验-->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -37,7 +49,7 @@
 				<!--anon 表示匿名访问，不需要认证以及授权-->
 				<!--authc表示需要认证 没有进行身份认证是不能进行访问的-->
 				/login=anon
-				/book/**=authc
+				/admin/**=authc
 				<!-- /css/**               = anon
                  /images/**            = anon
                  /js/**                = anon

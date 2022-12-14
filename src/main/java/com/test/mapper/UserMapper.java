@@ -3,7 +3,8 @@ package com.test.mapper;
 import com.test.model.User;
 import org.springframework.stereotype.Repository;
 
-import javax.jws.soap.SOAPBinding;
+import java.util.Set;
+
 @Repository
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userid);
@@ -19,4 +20,8 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User login(User user);
+
+    Set<String> findRoles(String username);
+
+    Set<String> findPermissions(String username);
 }
